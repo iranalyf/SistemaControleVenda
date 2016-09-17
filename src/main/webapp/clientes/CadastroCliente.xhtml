@@ -1,0 +1,56 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Cadastro de Cliente</ui:define>
+
+	<ui:define name="corpo">
+
+		<h1>Cadastro de Cliente</h1>
+		
+		<p:messages autoUpdate="true" closable="true" />
+
+		<h:form id="cadastroCliente" style="margin-top:20px">
+
+			<p:toolbar>
+
+				<p:toolbarGroup>
+					<p:button value="Voltar" outcome="/vendas/CadastroVenda.xhtml" />
+					<p:commandButton value="Cadastrar"
+						action="#{cadastroClienteBean.cadastrarCliente()}" ajax="false" />
+				</p:toolbarGroup>
+
+				<p:toolbarGroup align="right">
+					<p:button value="Ajuda" />
+				</p:toolbarGroup>
+
+			</p:toolbar>
+
+			<p:panelGrid columns="2" style="margin-top:10px"
+				styleClass="semBorda">
+				<p:outputLabel value="Nome Completo" for="nome" />
+				<p:inputText id="nome" placeholder="Informe o nome completo"
+					size="23" value="#{cadastroClienteBean.cliente.nome}" />
+
+				<p:outputLabel value="Cpf" for="cpf" />
+				<p:inputMask id="cpf" placeholder="Informe o cpf" size="15"
+					mask="999.999.999-99" value="#{cadastroClienteBean.cliente.cpf}" />
+
+				<p:outputLabel value="E-Mail" for="mail" />
+				<p:inputText id="mail" placeholder="Informe um endereço de E-mail"
+					size="24" value="#{cadastroClienteBean.cliente.email}" />
+
+
+				<p:outputLabel value="Data Nascimento" for="dataNas" />
+				<p:calendar id="dataNas" placeholder="Data Nasc" size="9"
+					navigator="true" pattern="dd/MM/yyyy"
+					value="#{cadastroClienteBean.cliente.dataNascimento}" />
+			</p:panelGrid>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>

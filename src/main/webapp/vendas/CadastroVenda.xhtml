@@ -1,0 +1,44 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:metadata>
+
+		<f:viewParam name="dummy" />
+
+		<f:viewParam name="venda" value="#{cadastroVendaBean.venda}" />
+
+		<f:event listener="#{cadastroVendaBean.inicializar}"
+			type="preRenderView" />
+		<f:event listener="#{cadastroVendaBean.inicializarClientes}"
+			type="preRenderView" />
+		<f:event listener="#{cadastroVendaBean.inicializarVendedores}"
+			type="preRenderView" />
+
+	</f:metadata>
+
+	<ui:define name="titulo">#{pesquisaVendaBean.editando ? 'Edição de Vendas' : 'Nova Venda'}</ui:define>
+
+	<ui:define name="corpo">
+
+		<h:form id="frmCadastro">
+
+			<ui:include src="/WEB-INF/templates/vendas/BotoesVenda.xhtml" />
+
+			<ui:include src="/WEB-INF/templates/vendas/CapaVenda.xhtml" />
+
+			<p:tabView style="margin-top: 18px">
+
+				<p:tab title="Itens">
+					<ui:include src="/WEB-INF/templates/vendas/ItensVenda.xhtml" />
+				</p:tab>
+
+			</p:tabView>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

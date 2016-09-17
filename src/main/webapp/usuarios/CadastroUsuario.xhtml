@@ -1,0 +1,59 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Cadastro Usuario</ui:define>
+
+	<ui:define name="corpo">
+
+		<h1>Cadastro de Usuario</h1>
+
+		<p:messages autoUpdate="true" closable="true" />
+
+		<h:form id="cadastroUsuario" style="margin-top:20px">
+
+			<p:toolbar>
+
+				<p:toolbarGroup>
+					<p:button value="Voltar" outcome="/Home.xhtml" />
+					<p:commandButton value="Cadastrar"
+						action="#{cadastroUsuarioBean.cadastrarUsuario()}" ajax="false" />
+				</p:toolbarGroup>
+
+				<p:toolbarGroup align="right">
+					<p:button value="Ajuda" />
+				</p:toolbarGroup>
+
+			</p:toolbar>
+
+			<p:panelGrid columns="2" style="margin-top:10px"
+				styleClass="semBorda">
+
+				<p:outputLabel value="Nome Completo" for="nomeCompleto" />
+				<p:inputText id="nomeCompleto"
+					placeholder="Informe seu Nome Completo" size="40"
+					value="#{cadastroUsuarioBean.usuario.nomeCompleto}" />
+
+				<p:outputLabel value="Nome de Usuario" for="usuario" />
+				<p:inputText id="usuario"
+					placeholder="Informe um nome de Usuario ou E-Mail" size="40"
+					value="#{cadastroUsuarioBean.usuario.username}" />
+
+				<p:outputLabel value="Senha" for="senha" />
+				<p:password id="senha" placeholder="Informe uma senha Segura"
+					match="password" size="23"
+					value="#{cadastroUsuarioBean.usuario.password}"
+					validatorMessage="Senhas não Correspondem! Tente Novamente..." />
+
+				<p:outputLabel value="Confirme sua Senha" for="password" />
+				<p:password placeholder="Confirme a senha Informada" id="password"
+					size="23" />
+			</p:panelGrid>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>

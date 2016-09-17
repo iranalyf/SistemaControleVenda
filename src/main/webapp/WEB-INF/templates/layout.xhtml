@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+	<meta charset="UTF-8" />
+	<h:outputStylesheet library="css" name="estilo.css" />
+	<h:outputScript library="js" name="jquery.maskMoney.js" />
+</h:head>
+
+<h:body>
+
+	<p:ajaxStatus styleClass="ajax-status" onsuccess="configurarMoeda()">
+		<f:facet name="start">
+			<h:graphicImage library="images" name="loading.gif" />
+		</f:facet>
+		<f:facet name="complete">
+			<h:outputText value="" />
+		</f:facet>
+	</p:ajaxStatus>
+
+	<header>
+		<div style="float: left; margin-left: 40px">
+			<h1>Sistema Controle de Vendas</h1>
+		</div>
+
+		<div style="float: right; margin-right: 110px">
+			<span
+				style="float: left; height: 30px; line-height: 30px; margin-right: 60px">
+				Olá <B> #{seguranca.nomeUsuario}</B>
+			</span>
+
+			<h:form style="display: inline-block">
+				<p:menubar styleClass="menu-sistema">
+
+					<p:submenu label="Cadastros">
+						<p:menuitem value="Cadastrar Usuario"
+							outcome="/usuarios/CadastroUsuario" />
+
+						<p:menuitem value="Cadastrar Cliente"
+							outcome="/clientes/CadastroCliente" />
+
+						<p:separator />
+
+						<p:menuitem value="Cadastrar Venda"
+							outcome="/vendas/CadastroVenda" />
+
+						<p:menuitem value="Cadastrar Produto"
+							outcome="/produtos/CadastroProduto" />
+					</p:submenu>
+
+					<p:submenu label="Pesquisas">
+						<p:menuitem value="Pesquisar Vendas "
+							outcome="/vendas/PesquisaVenda" />
+						<p:menuitem value="Pesquisar Produtos"
+							outcome="/produtos/PesquisaProduto" />
+					</p:submenu>
+
+					<p:submenu label="Relatórios">
+						<p:menuitem value="Grafico de Vendas"
+							outcome="/relatorios/GraficoVendas" />
+					</p:submenu>
+
+					<p:submenu label="Sair">
+						<p:menuitem value="Sair do Sistema"
+							url="/j_spring_security_logout" />
+					</p:submenu>
+
+				</p:menubar>
+			</h:form>
+
+		</div>
+		<div style="clear: both"></div>
+	</header>
+
+	<div id="conteudo">
+		<ui:insert name="corpo" />
+
+	</div>
+	<!-- -Qubra de linhas antes do rodapé -->
+	<br />
+	<br />
+	<br />
+
+	<p:separator />
+
+	<footer>
+		<div style="float: left">
+			<h3>©Copyright</h3>
+
+		</div>
+	</footer>
+
+	<h:form id="dialogConfirm">
+		<p:confirmDialog>
+
+			<p:commandButton value="não" icon="ui-icon-close"
+				styleClass="ui-confirmDialog-no" />
+			<p:commandButton value="sim" icon="ui-icon-check"
+				styleClass="ui-confirmDialog-yes" />
+
+		</p:confirmDialog>
+	</h:form>
+
+	<script>
+		function configurarMoeda() {
+			$(".moeda").maskMoney({
+				decimal : ",",
+				thousands : ".",
+				allowZero : true
+			})
+
+		}
+		$(document).ready(function() {
+			configurarMoeda()
+		});
+	</script>
+</h:body>
+</html>

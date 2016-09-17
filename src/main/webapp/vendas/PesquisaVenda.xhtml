@@ -1,0 +1,95 @@
+<ui:composition template="/WEB-INF/templates/layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Pesquisa de Vendas</ui:define>
+
+	<ui:define name="corpo">
+		<h1>Pesquisa Venda</h1>
+
+		<h:form id="frm">
+			<p:toolbar style="margin-top:20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Pesquisar" icon="ui-icon-search"
+						action="#{pesquisaVendaBean.pesquisarVenda()}" update="@form" />
+
+					<p:commandButton value="Exportar" ajax="false"
+						icon="ui-icon-arrowthick-1-s" title="Exportar to XLS"
+						style="margin-top:8px" update="vendasTable" process="@this">
+
+						<p:dataExporter type="xls" fileName="Vendas" target="vendasTable" />
+
+					</p:commandButton>
+
+				</p:toolbarGroup>
+				<p:toolbarGroup align="right">
+					<p:button value="Nova" outcome="/vendas/CadastroVenda" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+			<p:panelGrid id="painel" style="margin-top:20px; width: 100%"
+				columns="2" styleClass="semBorda">
+
+				<p:outputLabel value="Data da Venda:" />
+				<h:panelGroup>
+					<p:calendar size="" pattern="dd/mm/yyyy"
+						value="#{pesquisaVendaBean.filtro.dataVendaDe}" />
+				a
+				<p:calendar size="" pattern="dd/mm/yyyy"
+						value="#{pesquisaVendaBean.filtro.dataVendaAte}" />
+				</h:panelGroup>
+
+				<p:outputLabel value="Vendedor" />
+				<p:inputText size="40"
+					value="#{pesquisaVendaBean.filtro.nomeVendedor}" />
+				<p:outputLabel value="Cliente" />
+				<p:inputText size="40"
+					value="#{pesquisaVendaBean.filtro.nomeCliente}" />
+
+			</p:panelGrid>
+
+			<p:dataTable id="vendasTable" style="margin-top: 20px; " var="venda"
+				paginator="true" paginatorAlwaysVisible="false"
+				paginatorPosition="bottom" emptyMessage="Nenhuma venda encontrada"
+				rows="20" value="#{pesquisaVendaBean.vendasFiltradas}">
+
+				<p:column headerText="Número"
+					style="text-align: center; width: 100px">
+					<h:outputText value="#{venda.idVenda}" />
+				</p:column>
+
+				<p:column headerText="Data Venda"
+					style="text-align: center; width: 140px">
+					<h:outputText value="#{venda.data}" />
+				</p:column>
+
+				<p:column headerText="Cliente">
+					<h:outputText value="#{venda.cliente.nome}" />
+				</p:column>
+
+				<p:column headerText="Vendedor">
+					<h:outputText value="#{venda.vendedor.nomeCompleto}" />
+				</p:column>
+
+				<p:column headerText="Valor Total"
+					style="text-align: right; width: 120px">
+					<h:outputText value="#{venda.valorTotal}" />
+				</p:column>
+
+				<p:column style="text-align: center; width: 90px">
+					<p:button icon="ui-icon-pencil" title="Editar"
+						outcome="/vendas/CadastroVenda">
+
+						<f:param name="venda" value="#{venda.idVenda}" />
+					</p:button>
+
+				</p:column>
+			</p:dataTable>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>

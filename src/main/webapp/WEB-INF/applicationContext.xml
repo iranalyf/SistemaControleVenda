@@ -1,0 +1,33 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+
+	<beans:bean id="appUserDetailService" class="security.AppUserDetailsService" />
+
+	<http pattern="/Login.xhtml" security="none" />
+	<http pattern="/Erro.xhtml" security="none" />
+	<http pattern="/javax.faces.resource/**" security="none" />
+	<http pattern="/usuarios/CadastroUsuario.xhtml" security="none" />
+
+	<http auto-config="false" use-expressions="true">
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+
+		<form-login login-page="/Login.xhtml" authentication-failure-url="/Login.xhtml?invalid=true" default-target-url="/"
+			always-use-default-target="true" />
+			
+		<logout logout-url="/j_spring_security_logout"
+			invalidate-session="true" />
+			
+	</http>
+
+	<authentication-manager>
+		<authentication-provider user-service-ref="appUserDetailService">
+
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>
+

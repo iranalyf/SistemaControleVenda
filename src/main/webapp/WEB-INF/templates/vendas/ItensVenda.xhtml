@@ -1,0 +1,93 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<p:dataTable id="tabelaItens" var="item"
+		emptyMessage="Nenhum item encontrado. "
+		value="#{cadastroVendaBean.venda.itens}" rowIndexVar="linha">
+
+		<p:column headerText="Codigo do Produto"
+			style="text-align: center; width: 140px">
+			<h:outputText value="#{item.produto.codigoProduto}"
+				rendered="#{item.produtoAssociado}" />
+			<p:inputText size="8" value="#{cadastroVendaBean.codigoProduto}"
+				label="codigo" rendered="#{not item.produtoAssociado}">
+				<p:ajax event="change" process="@this"
+					update="tabelaItens :frmCadastro:totalPedido"
+					listener="#{cadastroVendaBean.carregarProdutoPorCodigo}" />
+			</p:inputText>
+		</p:column>
+
+		<p:column headerText="Produto:">
+			<h:outputText value="#{item.produto.nome}"
+				rendered="#{item.produtoAssociado}" />
+			<p:autoComplete value="#{cadastroVendaBean.produtoLinhaEditavel}"
+				completeMethod="#{cadastroVendaBean.completarProduto}"
+				forceSelection="true" var="p" itemLabel="#{p.nome}" itemValue="#{p}"
+				rendered="#{not item.produtoAssociado}"
+				placeholder="Pesquise pelo Nome do Produto">
+
+				<p:ajax event="itemSelect"
+					update="tabelaItens :frmCadastro:totalPedido"
+					listener="#{cadastroVendaBean.carregarProdutoLinhaEditavel}" />
+
+			</p:autoComplete>
+		</p:column>
+
+		<p:column headerText="Valor Unitário"
+			style="text-align: right; width: 120px ">
+			<h:outputText value="#{item.valorUnitario}">
+				<f:convertNumber type="currency" />
+			</h:outputText>
+		</p:column>
+
+		<p:column headerText=" Quantidade"
+			style="text-align: center; width: 100px">
+			<p:inputText size="8" value="#{item.quantidade}">
+				<p:ajax event="change" process="@this"
+					update="tabelaItens :frmCadastro:totalPedido"
+					listener="#{cadastroVendaBean.atualizarQuantidadeProdutoVenda(item, linha)}" />
+			</p:inputText>
+		</p:column>
+
+		<p:column headerText="Estoque"
+			style="text-align: center; width: 100px">
+			<h:outputText value="#{item.produto.estoque}"
+				style="#{item.estoqueInsuficiente ? 'color: red' : '' }" />
+
+			<h:graphicImage library="images" name="alerta.png" id="semEstoque"
+				rendered="#{item.estoqueInsuficiente}"
+				style="vertical-align: bottom; margin-left: 7px" />
+			<p:tooltip for="semEstoque" value="Estoque Insuficiente"
+				rendered="#{item.estoqueInsuficiente}" />
+
+		</p:column>
+
+		<p:column headerText="Valor Total"
+			style="text-align:right; width: 100px">
+			<h:outputText value="#{item.valorTotal}">
+				<f:convertNumber type="currency" />
+			</h:outputText>
+		</p:column>
+
+
+		<p:columnGroup type="footer">
+			<p:row>
+				<p:column colspan="5" footerText="Subtotal"
+					style="text-align: right" />
+				<p:column style="text-align: right">
+					<f:facet name="footer">
+						<h:outputText value="#{cadastroVendaBean.venda.valorTotal}"
+							id="subtotal">
+							<f:convertNumber type="currency" />
+						</h:outputText>
+					</f:facet>
+				</p:column>
+			</p:row>
+		</p:columnGroup>
+
+	</p:dataTable>
+
+</ui:composition>
